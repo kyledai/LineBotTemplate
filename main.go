@@ -37,6 +37,13 @@ func main() {
 func callbackHandler(w http.ResponseWriter, r *http.Request) {
 	events, err := bot.ParseRequest(r)
 
+	bs, err := ioutil.ReadFile("test.txt")
+	if err != nil {
+		return
+	}
+	str := string(bs)
+	
+	
 	if err != nil {
 		if err == linebot.ErrInvalidSignature {
 			w.WriteHeader(400)
@@ -51,7 +58,7 @@ func callbackHandler(w http.ResponseWriter, r *http.Request) {
 			switch message := event.Message.(type) {			
 			case *linebot.TextMessage:
 				if message.Text == "HI" {
-					if _, err = bot.ReplyMessage(event.ReplyToken, linebot.NewTextMessage("皆殺す")).Do(); err != nil {
+					if _, err = bot.ReplyMessage(event.ReplyToken, linebot.NewTextMessage(str+"皆殺す")).Do(); err != nil {
 						log.Print(err)
 					}
 				} else {
